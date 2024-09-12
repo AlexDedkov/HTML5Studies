@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+         window.addEventListener('DOMContentLoaded', () => {
+        (function(){
+            "use strict";
+            function newWindow() {
+                window.open('about:blank', 'test1', 'directories=yes, height=300, width=400, location=yes, menubar=yes, resizable=yes, scrollbars=yes, status=no, toolbar=yes');
+            }
+            var windowopen = document.getElementById('windowopen');
+            windowopen.addEventListener('click',newWindow);
+        }());});
+    </script>
+</head>
+<body>
+    <div>
+        <a id="windowopen" href="" onclick="newWindow()">Новое окно</a>
+    </div>
+</body>
+</html>

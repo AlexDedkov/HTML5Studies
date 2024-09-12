@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            (function(){
+                "use strict";
+
+                let scaled = false;
+
+                function changeSize () {
+                    var img = document.getElementById("penguinsImage");
+                    
+                    if (!scaled) {
+                        img.style.transform = "scale(2)"; 
+                    } else {
+                        img.style.transform = "scale(1)";
+                    }
+                    scaled = !scaled; 
+                }
+
+                
+                var imgElement = document.getElementById('penguinsImage');
+                imgElement.addEventListener('click', changeSize);
+
+            }());
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <img id="penguinsImage" src="./Penguins.jpg" alt="">
+    </div>
+</body>
+</html>
