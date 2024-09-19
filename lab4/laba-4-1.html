@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../modernizr.js"></script>
+    <title>Document</title>
+    <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', () => {
+            (function(){
+            "use strict";
+
+            
+
+            var c = document.getElementById("myCanvas");
+
+            if(c){
+                if(Modernizr.canvas){
+
+                    c.innerHTML="Canvas supported!";
+
+                    var ctx = c.getContext("2d");
+
+                    var grd = ctx.createLinearGradient(0, 0, 500, 500);
+                    grd.addColorStop(0.15, "magenta");
+                    grd.addColorStop(0.35,"teal");
+                    grd.addColorStop(0.5,"lightgreen");
+                    grd.addColorStop(0.8, "yellow");
+
+                    ctx.fillStyle = grd;
+                    ctx.fillRect(0, 0, 500, 500);
+                }
+                else {
+                    c.innerHTML="Its no supported, please update!";
+                }
+            }
+            else{
+                console.error("Canvas is not in the document!");
+            }
+
+        }());});
+    </script>
+</head>
+<body onload="">
+    <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;">Canvas 
+        не поддерживается обновите браузер</canvas>
+</body>
+</html>
