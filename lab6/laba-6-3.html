@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../modernizr.js"></script>
+    <title>HTML5 Geolocation API</title>
+
+    <script>
+        (function() {
+            window.addEventListener('DOMContentLoaded', () => {
+                function getLocation() {
+                    if (Modernizr.geolocation) {
+                        document.getElementById('status').textContent = 'Определяем местоположение...';
+                        navigator.geolocation.getCurrentPosition(showPosition, showError);
+                    } else {
+                        document.getElementById('status').textContent = 'Geolocation API не поддерживается вашим браузером.';
+                    }
+                }
+
+                function showPosition(position) {
+                    let latitude = position.coords.latitude;
+                    let longitude = position.coords.longitude;
+                    let accuracy = position.coords.accuracy;
+                    document.getElementById('status').textContent = 'Местоположение получено:';
+                    document.getElementById('coordinates').innerHTML = `
+                        Широта: ${latitude} <br>
+                        Долгота: ${longitude} <br>
+                        Точность: ${accuracy} метров
+                    `;
+                }
+
+                function showError(error) {
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            document.getElementById('status').textContent = 'Пользователь отклонил запрос на определение местоположения.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            document.getElementById('status').textContent = 'Информация о местоположении недоступна.';
+                            break;
+                        case error.TIMEOUT:
+                            document.getElementById('status').textContent = 'Запрос на определение местоположения превысил допустимое время ожидания.';
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            document.getElementById('status').textContent = 'Произошла неизвестная ошибка.';
+                            break;
+                    }
+                }
+
+                
+                window.getLocation = getLocation;
+            });
+        })();
+    </script>
+</head>
+<body>
+    <h1>Определение местоположения с помощью Geolocation API</h1>
+    <button onclick="getLocation()">Получить местоположение</button>
+    <p id="status"></p>
+    <p id="coordinates"></p>
+
+
+</body>
+</html>

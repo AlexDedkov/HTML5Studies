@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+  <style>
+    .container {
+      border: 2px solid red;
+      width: 150px;
+      height: 300px;
+      display: inline-block;
+      vertical-align: top;
+      padding: 10px;
+    }
+
+    .draggable {
+      width: 100px;
+      height: 50px;
+      margin-bottom: 10px;
+      border: 1px solid black;
+      text-align: center;
+      line-height: 50px;
+      cursor: move;
+    }
+  </style>
+  <title>Drag and Drop Example</title>
+
+  
+  <script>
+    (function() {
+      const draggables = document.querySelectorAll('.draggable');
+      const containers = document.querySelectorAll('.container');
+
+      draggables.forEach(draggable => {
+        draggable.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', draggable.id);
+        });
+      });
+
+      containers.forEach(container => {
+        container.addEventListener('dragover', (e) => {
+          e.preventDefault();
+        });
+
+        container.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const draggableId = e.dataTransfer.getData('text/plain');
+          const draggable = document.getElementById(draggableId);
+          container.appendChild(draggable);
+        });
+      });
+    })();
+  </script>
+</head>
+<body>
+  <div id="container1" class="container">
+    <div id="text1" class="draggable" draggable="true">Text 1</div>
+  </div>
+
+  <div id="container2" class="container">
+    <div id="text2" class="draggable" draggable="true">Text 2</div>
+    <div id="text3" class="draggable" draggable="true">Text 3</div>
+  </div>
+
+</body>
+</html>
