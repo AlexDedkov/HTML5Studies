@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../modernizr.js"></script>
+    <title>Телефонная записная книжка</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .contact-list { 
+            margin-top: 20px; 
+        }
+        .contact-item { 
+            margin-bottom: 10px; 
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+        .remove-btn { 
+            color: red; 
+            cursor: pointer; 
+            margin-left: 10px;
+        }
+    </style>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            
+            if (Modernizr.localstorage) {
+
+                                        
+                        loadContacts();
+
+                        
+                        document.getElementById('contactForm').addEventListener('submit', function (event) {
+                            event.preventDefault();
+
+                            const name = document.getElementById('name').value;
+                            const phone = document.getElementById('phone').value;
+
+                            if (name && phone) {
+                                addContact(name, phone);
+                                document.getElementById('contactForm').reset();
+                            } else {
+                                alert("Пожалуйста, заполните все поля!");
+                            }
+                        });
+
+
+                        function addContact(name, phone) {
+                            let contacts = getContactsFromStorage();
+                            contacts.push({ name, phone });
+                            localStorage.setItem('contacts', JSON.stringify(contacts));
+                            loadContacts();
+                        }
+
+
+                        function loadContacts() {
+                            const contacts = getContactsFromStorage();
+                            const contactList = document.getElementById('contactList');
+                            contactList.innerHTML = ''; 
+
+                            contacts.forEach((contact, index) => {
+                                const contactItem = document.createElement('div');
+                                contactItem.classList.add('contact-item');
+                                contactItem.innerHTML = `<strong>${contact.name}</strong> - ${contact.phone} 
+                                <span class="remove-btn" data-index="${index}">Удалить</span>`;
+                                contactList.appendChild(contactItem);
+                            });
+
+                            
+                            document.querySelectorAll('.remove-btn').forEach(button => {
+                                button.addEventListener('click', function () {
+                                    removeContact(this.getAttribute('data-index'));
+                                });
+                            });
+                        }
+
+
+                function removeContact(index) {
+                    let contacts = getContactsFromStorage();
+                    contacts.splice(index, 1);
+                    localStorage.setItem('contacts', JSON.stringify(contacts));
+                    loadContacts();
+                }
+
+
+                function getContactsFromStorage() {
+                    return JSON.parse(localStorage.getItem('contacts')) || [];
+                }
+                }
+                else
+                {
+                    //Полифил
+                }
+
+
+        });
+    </script>
+</head>
+<body>
+    <h1>Телефонная записная книжка</h1>
+    <form id="contactForm">
+        <div>
+            <label for="name">Имя:</label>
+            <input type="text" id="name" required>
+        </div>
+        <div>
+            <label for="phone">Телефон:</label>
+            <input type="number" id="phone" required>
+        </div>
+        <button type="submit">Добавить контакт</button>
+    </form>
+
+    <div class="contact-list" id="contactList">
+        
+    </div>
+    
+</body>
+</html>
